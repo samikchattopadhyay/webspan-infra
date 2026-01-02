@@ -18,7 +18,7 @@ NC='\033[0m' # No Color
 # Configuration
 APP_DIR="/var/www/html"
 DATA_REPO="https://github.com/samikchattopadhyay/webspan-data.git"
-CREDS_REPO="https://github.com/samikchattopadhyay/wsprodcreds.git"
+CREDS_REPO="https://github.com/samikchattopadhyay/webspan-creds.git"
 TENANT_REPO="https://github.com/samikchattopadhyay/webspan-tenant.git"
 
 print_header() {
@@ -70,13 +70,13 @@ print_success "webspan-data repository cloned"
 # Step 3: Clone credentials repository
 print_step "Cloning credentials repository"
 cd $APP_DIR
-if [ -d "wsprodcreds" ]; then
-    print_success "wsprodcreds repository already exists"
-    cd wsprodcreds
+if [ -d "webspan-creds" ]; then
+    print_success "webspan-creds repository already exists"
+    cd webspan-creds
     git pull origin main || true
 else
-    git clone $CREDS_REPO wsprodcreds
-    cd wsprodcreds
+    git clone $CREDS_REPO webspan-creds
+    cd webspan-creds
 fi
 print_success "Credentials repository cloned"
 
@@ -84,13 +84,13 @@ print_success "Credentials repository cloned"
 print_step "Setting up .env file for infrastructure services"
 cd $APP_DIR/webspan-data
 if [ ! -f ".env" ]; then
-    if [ -f "$APP_DIR/wsprodcreds/.env" ]; then
+    if [ -f "$APP_DIR/webspan-creds/.env" ]; then
         # Copy .env from credentials repository
-        cp "$APP_DIR/wsprodcreds/.env" .env
+        cp "$APP_DIR/webspan-creds/.env" .env
         print_success ".env file copied from credentials repository"
     else
         print_error ".env file not found in credentials repository"
-        echo "Please ensure .env file exists in wsprodcreds repository"
+        echo "Please ensure .env file exists in webspan-creds repository"
         exit 1
     fi
 else
@@ -179,7 +179,7 @@ echo -e "${CYAN}  Infrastructure Setup Complete!${NC}"
 echo -e "${CYAN}========================================${NC}"
 echo ""
 echo -e "${GREEN}✓${NC} webspan-data repository cloned to $APP_DIR/webspan-data"
-echo -e "${GREEN}✓${NC} wsprodcreds repository cloned to $APP_DIR/wsprodcreds"
+echo -e "${GREEN}✓${NC} webspan-creds repository cloned to $APP_DIR/webspan-creds"
 echo -e "${GREEN}✓${NC} webspan-tenant repository cloned to $APP_DIR/webspan-tenant"
 echo -e "${GREEN}✓${NC} Docker network webspan-net created"
 echo -e "${GREEN}✓${NC} Infrastructure containers started and tested"

@@ -5,14 +5,14 @@ This document describes the complete three-script deployment workflow for WebSpa
 ## Repository Structure
 
 1. **webspan-tenant** - Application repository (contains Laravel app and `docker/deploy-prod.sh`)
-2. **wsprodcreds** - Credentials repository (PRIVATE - contains `.env` and `vps-setup/vps-setup.sh`)
+2. **webspan-creds** - Credentials repository (PRIVATE - contains `.env` and `vps-setup/vps-setup.sh`)
 3. **webspan-data** - Infrastructure repository (contains MySQL, Redis, MinIO setup and `setup-infrastructure.sh`)
 
 ## Three-Script Deployment Workflow
 
 ### Script 1: VPS Initial Setup (`vps-setup.sh`)
 
-**Location**: `wsprodcreds/vps-setup/vps-setup.sh`  
+**Location**: `webspan-creds/vps-setup/vps-setup.sh`  
 **Run as**: root  
 **Run**: Once per new VPS server
 
@@ -38,7 +38,7 @@ This document describes the complete three-script deployment workflow for WebSpa
 
 **What it does:**
 - Clones `webspan-data` repository to `/var/www/html/webspan-data`
-- Clones `wsprodcreds` repository to `/var/www/html/wsprodcreds`
+- Clones `webspan-creds` repository to `/var/www/html/webspan-creds`
 - Creates Docker network `webspan-net`
 - Creates external HDD mount directories
 - Starts infrastructure containers (MySQL, Redis, MinIO)
@@ -76,7 +76,7 @@ This document describes the complete three-script deployment workflow for WebSpa
 │   ├── docker-compose.yml
 │   ├── setup-infrastructure.sh
 │   └── .env
-├── wsprodcreds/           # Credentials repository
+├── webspan-creds/         # Credentials repository
 │   └── .env
 └── webspan-tenant/        # Application repository
     ├── docker/
