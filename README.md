@@ -12,7 +12,7 @@ This repository contains Docker Compose configuration for infrastructure service
 
 - Docker and Docker Compose installed
 - External network `webspan-net` created
-- External HDD mounted at `/mnt/external-hdd/webspan-data/` (or update volume paths in `docker-compose.yml`)
+- External HDD mounted at `/mnt/external-hdd/webspan-infra/` (or update volume paths in `docker-compose.yml`)
 
 ## Setup
 
@@ -29,10 +29,10 @@ docker network create webspan-net
 
 3. Create volume directories on external HDD:
 ```bash
-sudo mkdir -p /mnt/external-hdd/webspan-data/{mysql,redis,minio}
-sudo chown -R 999:999 /mnt/external-hdd/webspan-data/mysql
-sudo chown -R 999:999 /mnt/external-hdd/webspan-data/redis
-sudo chown -R 1000:1000 /mnt/external-hdd/webspan-data/minio
+sudo mkdir -p /mnt/external-hdd/webspan-infra/{mysql,redis,minio}
+sudo chown -R 999:999 /mnt/external-hdd/webspan-infra/mysql
+sudo chown -R 999:999 /mnt/external-hdd/webspan-infra/redis
+sudo chown -R 1000:1000 /mnt/external-hdd/webspan-infra/minio
 ```
 
 4. Start services:
@@ -49,9 +49,9 @@ docker compose logs
 ## Volume Configuration
 
 Volumes are configured to use bind mounts pointing to external HDD:
-- MySQL: `/mnt/external-hdd/webspan-data/mysql`
-- Redis: `/mnt/external-hdd/webspan-data/redis`
-- MinIO: `/mnt/external-hdd/webspan-data/minio`
+- MySQL: `/mnt/external-hdd/webspan-infra/mysql`
+- Redis: `/mnt/external-hdd/webspan-infra/redis`
+- MinIO: `/mnt/external-hdd/webspan-infra/minio`
 
 To change the mount point, update the `device` path in `docker-compose.yml` volumes section.
 

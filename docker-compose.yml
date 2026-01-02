@@ -92,18 +92,18 @@ volumes:
     # driver_opts:
     #   type: none
     #   o: bind
-    #   device: /mnt/external-hdd/webspan-data/mysql
+    #   device: /mnt/external-hdd/webspan-infra/mysql
   redis_data:
     driver: local
     # For external HDD mounting, uncomment and update path:
     # driver_opts:
     #   type: none
     #   o: bind
-    #   device: /mnt/external-hdd/webspan-data/redis
+    #   device: /mnt/external-hdd/webspan-infra/redis
   minio_data:
     driver: local
     # For external HDD mounting, uncomment and update path:
     # driver_opts:
     #   type: none
     #   o: bind
-    #   device: /mnt/external-hdd/webspan-data/minio
+    #   device: /mnt/external-hdd/webspan-infra/minio

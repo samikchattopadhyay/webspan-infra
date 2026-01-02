@@ -17,7 +17,7 @@ NC='\033[0m' # No Color
 
 # Configuration
 APP_DIR="/var/www/html"
-DATA_REPO="https://github.com/samikchattopadhyay/webspan-data.git"
+DATA_REPO="https://github.com/samikchattopadhyay/webspan-infra.git"
 CREDS_REPO="https://github.com/samikchattopadhyay/webspan-creds.git"
 TENANT_REPO="https://github.com/samikchattopadhyay/webspan-tenant.git"
 
@@ -54,18 +54,18 @@ sudo mkdir -p $APP_DIR
 sudo chown $USER:$USER $APP_DIR
 print_success "Application directory created"
 
-# Step 2: Clone webspan-data repository
-print_step "Cloning webspan-data repository"
+# Step 2: Clone webspan-infra repository
+print_step "Cloning webspan-infra repository"
 cd $APP_DIR
-if [ -d "webspan-data" ]; then
-    print_success "webspan-data repository already exists"
-    cd webspan-data
+if [ -d "webspan-infra" ]; then
+    print_success "webspan-infra repository already exists"
+    cd webspan-infra
     git pull origin main || true
 else
-    git clone $DATA_REPO webspan-data
-    cd webspan-data
+    git clone $DATA_REPO webspan-infra
+    cd webspan-infra
 fi
-print_success "webspan-data repository cloned"
+print_success "webspan-infra repository cloned"
 
 # Step 3: Clone credentials repository
 print_step "Cloning credentials repository"
@@ -82,7 +82,7 @@ print_success "Credentials repository cloned"
 
 # Step 4: Setup .env file for infrastructure
 print_step "Setting up .env file for infrastructure services"
-cd $APP_DIR/webspan-data
+cd $APP_DIR/webspan-infra
 if [ ! -f ".env" ]; then
     if [ -f "$APP_DIR/webspan-creds/.env" ]; then
         # Copy .env from credentials repository
@@ -108,15 +108,15 @@ fi
 
 # Step 6: Create external HDD mount directories
 print_step "Creating external HDD mount directories"
-sudo mkdir -p /mnt/external-hdd/webspan-data/{mysql,redis,minio}
-sudo chown -R 999:999 /mnt/external-hdd/webspan-data/mysql
-sudo chown -R 999:999 /mnt/external-hdd/webspan-data/redis
-sudo chown -R 1000:1000 /mnt/external-hdd/webspan-data/minio
+sudo mkdir -p /mnt/external-hdd/webspan-infra/{mysql,redis,minio}
+sudo chown -R 999:999 /mnt/external-hdd/webspan-infra/mysql
+sudo chown -R 999:999 /mnt/external-hdd/webspan-infra/redis
+sudo chown -R 1000:1000 /mnt/external-hdd/webspan-infra/minio
 print_success "External HDD directories created"
 
 # Step 7: Start infrastructure containers
 print_step "Starting infrastructure containers"
-cd $APP_DIR/webspan-data
+cd $APP_DIR/webspan-infra
 docker compose up -d
 print_success "Infrastructure containers started"
 
@@ -128,7 +128,7 @@ sleep 10
 print_step "Testing services"
 
 # Load .env variables for testing
-cd $APP_DIR/webspan-data
+cd $APP_DIR/webspan-infra
 if [ -f ".env" ]; then
     set -a
     source .env
@@ -178,15 +178,15 @@ echo -e "${CYAN}========================================${NC}"
 echo -e "${CYAN}  Infrastructure Setup Complete!${NC}"
 echo -e "${CYAN}========================================${NC}"
 echo ""
-echo -e "${GREEN}✓${NC} webspan-data repository cloned to $APP_DIR/webspan-data"
+echo -e "${GREEN}✓${NC} webspan-infra repository cloned to $APP_DIR/webspan-infra"
 echo -e "${GREEN}✓${NC} webspan-creds repository cloned to $APP_DIR/webspan-creds"
 echo -e "${GREEN}✓${NC} webspan-tenant repository cloned to $APP_DIR/webspan-tenant"
 echo -e "${GREEN}✓${NC} Docker network webspan-net created"
 echo -e "${GREEN}✓${NC} Infrastructure containers started and tested"
 echo ""
 echo -e "${BLUE}Next Steps:${NC}"
-echo -e "  1. Verify services: ${CYAN}cd $APP_DIR/webspan-data && docker compose ps${NC}"
-echo -e "  2. View logs: ${CYAN}cd $APP_DIR/webspan-data && docker compose logs${NC}"
+echo -e "  1. Verify services: ${CYAN}cd $APP_DIR/webspan-infra && docker compose ps${NC}"
+echo -e "  2. View logs: ${CYAN}cd $APP_DIR/webspan-infra && docker compose logs${NC}"
 echo -e "  3. Run application deployment script: ${CYAN}cd $APP_DIR/webspan-tenant && ./docker/deploy-prod.sh${NC}"
 echo ""
 

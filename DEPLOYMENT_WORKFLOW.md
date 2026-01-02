@@ -6,7 +6,7 @@ This document describes the complete three-script deployment workflow for WebSpa
 
 1. **webspan-tenant** - Application repository (contains Laravel app and `docker/deploy-prod.sh`)
 2. **webspan-creds** - Credentials repository (PRIVATE - contains `.env` and `vps-setup/vps-setup.sh`)
-3. **webspan-data** - Infrastructure repository (contains MySQL, Redis, MinIO setup and `infra-setup.sh`)
+3. **webspan-infra** - Infrastructure repository (contains MySQL, Redis, MinIO setup and `infra-setup.sh`)
 
 ## Three-Script Deployment Workflow
 
@@ -32,12 +32,12 @@ This document describes the complete three-script deployment workflow for WebSpa
 
 ### Script 2: Infrastructure Setup (`infra-setup.sh`)
 
-**Location**: `webspan-data/infra-setup.sh`  
+**Location**: `webspan-infra/infra-setup.sh`  
 **Run as**: user `samik`  
 **Run**: Once after VPS setup
 
 **What it does:**
-- Clones `webspan-data` repository to `/var/www/html/webspan-data`
+- Clones `webspan-infra` repository to `/var/www/html/webspan-infra`
 - Clones `webspan-creds` repository to `/var/www/html/webspan-creds`
 - Creates Docker network `webspan-net`
 - Creates external HDD mount directories
@@ -72,7 +72,7 @@ This document describes the complete three-script deployment workflow for WebSpa
 
 ```
 /var/www/html/
-├── webspan-data/          # Infrastructure services (MySQL, Redis, MinIO)
+├── webspan-infra/         # Infrastructure services (MySQL, Redis, MinIO)
 │   ├── docker-compose.yml
 │   ├── infra-setup.sh
 │   └── .env
@@ -99,9 +99,9 @@ Application connects to infrastructure using container hostnames:
 ## Volume Configuration
 
 Infrastructure volumes are mounted to external HDD:
-- `/mnt/external-hdd/webspan-data/mysql`
-- `/mnt/external-hdd/webspan-data/redis`
-- `/mnt/external-hdd/webspan-data/minio`
+- `/mnt/external-hdd/webspan-infra/mysql`
+- `/mnt/external-hdd/webspan-infra/redis`
+- `/mnt/external-hdd/webspan-infra/minio`
 
 Application volumes use Docker named volumes (can be moved to external HDD later).
 
