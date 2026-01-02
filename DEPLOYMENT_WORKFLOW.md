@@ -6,7 +6,7 @@ This document describes the complete three-script deployment workflow for WebSpa
 
 1. **webspan-tenant** - Application repository (contains Laravel app and `docker/deploy-prod.sh`)
 2. **webspan-creds** - Credentials repository (PRIVATE - contains `.env` and `vps-setup/vps-setup.sh`)
-3. **webspan-data** - Infrastructure repository (contains MySQL, Redis, MinIO setup and `setup-infrastructure.sh`)
+3. **webspan-data** - Infrastructure repository (contains MySQL, Redis, MinIO setup and `infra-setup.sh`)
 
 ## Three-Script Deployment Workflow
 
@@ -30,9 +30,9 @@ This document describes the complete three-script deployment workflow for WebSpa
 - SSH into server as user `samik`
 - Upload script 2 to `/home/samik`
 
-### Script 2: Infrastructure Setup (`setup-infrastructure.sh`)
+### Script 2: Infrastructure Setup (`infra-setup.sh`)
 
-**Location**: `webspan-data/setup-infrastructure.sh`  
+**Location**: `webspan-data/infra-setup.sh`  
 **Run as**: user `samik`  
 **Run**: Once after VPS setup
 
@@ -74,7 +74,7 @@ This document describes the complete three-script deployment workflow for WebSpa
 /var/www/html/
 ├── webspan-data/          # Infrastructure services (MySQL, Redis, MinIO)
 │   ├── docker-compose.yml
-│   ├── setup-infrastructure.sh
+│   ├── infra-setup.sh
 │   └── .env
 ├── webspan-creds/         # Credentials repository
 │   └── .env
